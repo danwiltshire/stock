@@ -26,4 +26,7 @@ jobs:
       application: ${{ github.event.repository.name }}
       environment: prod
       values: |
-        imageTag: "${{ needs.build.outputs.sha-tag }}"
+        httpWorkloads:
+          stock:
+            image:
+              tag: "${{ needs.build.outputs.sha-tag }}"
