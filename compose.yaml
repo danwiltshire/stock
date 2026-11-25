@@ -1,0 +1,13 @@
+services:
+  books:
+    build:
+      context: .
+      target: development
+    ports:
+      - "3000:3000"
+    environment:
+      ENABLE_AUTH: ${ENABLE_AUTH:-false}
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next

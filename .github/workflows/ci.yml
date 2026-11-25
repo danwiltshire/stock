@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    uses: danwiltshire/github-workflows/.github/workflows/build-image.yml@main
+    with:
+      architecture: arm64
+    secrets: inherit
+
+  promote-to-prod:
+    uses: danwiltshire/github-workflows/.github/workflows/update-gitops-values.yml@main
+    if: github.event_name == 'push'
+    needs: build
+    secrets: inherit
+    with:
+      application: ${{ github.event.repository.name }}
+      environment: prod
+      values: |
+        imageTag: "${{ needs.build.outputs.sha-tag }}"
