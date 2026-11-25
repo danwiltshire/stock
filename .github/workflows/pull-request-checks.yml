@@ -1,0 +1,16 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    uses: danwiltshire/github-workflows/.github/workflows/build-image.yml@main
+    with:
+      architecture: arm64
+    secrets: inherit
